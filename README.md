@@ -27,7 +27,6 @@ graph LR
             end
         end
         Secrets_Manager
-
     style Public_Subnet_1 fill:#ccf,stroke:#333,stroke-width:2px
     style Public_Subnet_2 fill:#ccf,stroke:#333,stroke-width:2px
     style Private_Subnet_1 fill:#aaffaa,stroke:#333,stroke-width:2px

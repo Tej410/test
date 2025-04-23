@@ -5,34 +5,28 @@ graph LR
     subgraph AWS Cloud
         subgraph Region (us-east-1)
             direction LR
-            Internet_Gateway -- Internet Access --> Public_Subnet_1 & Public_Subnet_2
-
-            subgraph Availability_Zone_1
-                Public_Subnet_1 -- NAT Gateway --> Private_Subnet_1
-                Private_Subnet_1 -- Application Servers --> DB_Subnet_1
-                DB_Subnet_1 -- MySQL RDS --> Secrets_Manager
+            subgraph Project VPC
+                direction LR
+                Internet_Gateway -- Internet Access --> Public_Subnet_1 & Public_Subnet_2
+                subgraph Availability_Zone_1
+                    Public_Subnet_1 -- NAT Gateway --> Private_Subnet_1
+                    Private_Subnet_1 -- Application Servers --> DB_Subnet_1
+                    DB_Subnet_1 -- MySQL RDS --> Secrets_Manager
+                end
+                subgraph Availability_Zone_2
+                    Public_Subnet_2 -- NAT Gateway --> Private_Subnet_2
+                    Private_Subnet_2 -- Application Servers --> DB_Subnet_2
+                    DB_Subnet_2 -- MySQL RDS --> Secrets_Manager
+                end
+                Application_Load_Balancer -- Traffic Distribution --> Target_Group
+                Target_Group -- Application Traffic --> Application_Servers
+                Auto_Scaling_Group -- Instance Management --> Application_Servers
+                Application_Servers -- Database Queries --> MySQL_RDS
+                IAM_Role -- Permissions --> Application_Servers & MySQL_RDS
+                NAT_Gateway
             end
-
-            subgraph Availability_Zone_2
-                Public_Subnet_2 -- NAT Gateway --> Private_Subnet_2
-                Private_Subnet_2 -- Application Servers --> DB_Subnet_2
-                DB_Subnet_2 -- MySQL RDS --> Secrets_Manager
-            end
-
-            Application_Load_Balancer -- Traffic Distribution --> Target_Group
-
-            Target_Group -- Application Traffic --> Application_Servers
-
-            Auto_Scaling_Group -- Instance Management --> Application_Servers
-
-            Application_Servers -- Database Queries --> MySQL_RDS
-
-            IAM_Role -- Permissions --> Application_Servers & MySQL_RDS
-
-            NAT_Gateway
         end
-    end
-    Secrets_Manager
+        Secrets_Manager
 
     style Public_Subnet_1 fill:#ccf,stroke:#333,stroke-width:2px
     style Public_Subnet_2 fill:#ccf,stroke:#333,stroke-width:2px
@@ -48,3 +42,4 @@ graph LR
     style NAT_Gateway fill:#cce,stroke:#333,stroke-width:2px
     style IAM_Role fill:#ada,stroke:#333,stroke-width:2px
     style Target_Group fill:#bbf,stroke:#333,stroke-width:2px
+```
